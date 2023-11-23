@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Maria Tan",
+    "image": "https://example.com/maria_tan.jpg",
+    "education": "S1",
+    "weight": 65,
+    "height": 170,
+    "bmi": 22.49,
+    "DoB": "1985-04-15",
+    "age": 38,
+    "gender": "female",
+    "userId": 1,
+    "specialistId": 1
+  },
+  {
+    "id": 2,
+    "name": "Dr. Ahmad Wibowo",
+    "image": "https://example.com/ahmad_wibowo.jpg",
+    "education": "S3",
+    "weight": 75,
+    "height": 180,
+    "bmi": 23.15,
+    "DoB": "1978-11-22",
+    "age": 44,
+    "gender": "male",
+    "userId": 3,
+    "specialistId": 2
+  },
+  {
+    "id": 3,
+    "name": "Dr. Siti Rahayu",
+    "image": "https://example.com/siti_rahayu.jpg",
+    "education": "S2",
+    "weight": 58,
+    "height": 160,
+    "bmi": 22.66,
+    "DoB": "1990-08-03",
+    "age": 31,
+    "gender": "female",
+    "userId": 5,
+    "specialistId": 3
+  }
+]

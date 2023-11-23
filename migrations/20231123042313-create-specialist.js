@@ -12,15 +12,6 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      doctorId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Doctors',
-          key: 'id'
-        },
-        onUpdate: 'cascade',
-        onDelete: 'cascade'
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

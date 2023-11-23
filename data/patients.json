@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Fitriani Sari",
+    "image": "https://example.com/fitriani_sari.jpg",
+    "weight": 63,
+    "height": 168,
+    "bmi": 22.32,
+    "DoB": "1989-12-20",
+    "age": 32,
+    "gender": "female",
+    "userId": 2
+  },
+  {
+    "id": 2,
+    "name": "Aditya Rahman",
+    "image": "https://example.com/aditya_rahman.jpg",
+    "weight": 80,
+    "height": 185,
+    "bmi": 23.37,
+    "DoB": "1980-05-08",
+    "age": 42,
+    "gender": "male",
+    "userId": 4
+  }
+]

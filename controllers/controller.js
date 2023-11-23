@@ -3,10 +3,15 @@ const {Op} = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 class Controller {
-    static async tes(req, res){
+    static async landingPage(req, res){
         try {
-            let data = await User.findAll();
-            res.send(data);
+            if(req.session.userId && req.session.role === 'doctor'){
+                res.redirect('/doctor');
+            } else if(req.session.userId && req.session.role === 'patient'){
+                res.redirect('/patient');
+            } else{
+                res.render('landing-page');
+            }
         } catch (error) {
             res.send(error);
         }
@@ -14,7 +19,14 @@ class Controller {
     //login
     static async renderLogin(req, res){
         try{
-            res.render('login');
+            if(req.session.userId && req.session.role === 'doctor'){
+                res.redirect('/doctor');
+            } else if(req.session.userId && req.session.role === 'patient'){
+                res.redirect('/patient');
+            }
+            let {error} = req.query;
+            console.log(error);
+            res.render('login',{error});
         } catch(error) {
             res.send(error);
         }
@@ -22,10 +34,39 @@ class Controller {
     static async handlerLogin(req, res){
         try{
             let {username, password} = req.body;
-            let dataLogin = 
-            res.send(req.body);
+            if(!username || !password){
+                throw {errLoginValidate: 'Username or password cannot empty'};
+            }
+            let dataLogin = await User.findOne({
+                where: {
+                    username: username
+                }
+            })
+            if(!dataLogin){
+                throw {errLogin: `Cannot login`}
+            }
+            let passwordFromDB = dataLogin.password;
+            let checkPassword = bcrypt.compareSync(password, passwordFromDB);
+            // console.log(dataLogin[0], '<----');
+            if(!checkPassword){
+                throw {errLogin: `Cannot login`}
+            }
+            req.session.userId = dataLogin.id;
+            req.session.role = dataLogin.role;
+            if(dataLogin.role === 'doctor'){
+                res.redirect('/doctor');
+            } else if(dataLogin.role === 'patient'){
+                res.redirect('/patient')
+            }
         } catch(error) {
-            res.send(error);
+            if(error.errLogin){
+                // res.send(error.errLogin);
+                res.redirect(`/login?error=${error.errLogin}`);
+            }else if(error.errLoginValidate){
+                res.redirect(`/login?error=${error.errLoginValidate}`)
+            }else{
+                res.send(error);
+            }
         }
     }
     //signup
@@ -39,6 +80,29 @@ class Controller {
     static async handlerSignup(req, res){
         try {
             res.send('handler signup');
+        } catch (error) {
+            res.send(error);
+        }
+    }
+
+    //doctor
+    static async homeDoctor(req, res){
+        try {
+            let {error} = req.query;
+            console.log(error);
+            res.send('home doctor');
+        } catch (error) {
+            res.send(error);
+        }
+    }
+
+
+    //patient
+    static async homePatient(req, res){
+        try {
+            let {error} = req.query;
+            console.log(error);
+            res.send('home patient');
         } catch (error) {
             res.send(error);
         }

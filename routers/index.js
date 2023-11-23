@@ -3,27 +3,54 @@ const Controller = require('../controllers/controller');
 const app = express();
 const router = express.Router();
 
-router.get('/', Controller.tes);
+router.get('/', Controller.landingPage);
 router.get('/login', Controller.renderLogin);
 router.post('/login', Controller.handlerLogin);
 
 router.get('/signup', Controller.renderSignup);
 router.post('/signup', Controller.handlerSignup);
 
-// router.get('/doctor/edit', Controller.renderEditDoctor);
-// router.post('/doctor/edit', Controller.handlerEditDoctor);
 
-// router.get('/patient/edit', Controller.renderEditPatient);
-// router.post('/patient/edit', Controller.handlerEditPatient);
+const isLoggedIn = function (req, res, next){
+    if(!req.session.userId){
+        const error = 'Please login first';
+        res.redirect(`/login?error=${error}`);
+    } else {
+        next();
+    }
+}
 
-// router.get('/doctor', Controller.homeDoctor);
+const isDoctor = function (req, res, next){
+    if(!req.session.userId || req.session.role !== 'doctor'){
+        const error = `You dont have permission in doctor page`;
+        res.redirect(`/doctor?error=${error}`); 
+    } else {
+        next();
+    }
+}
+
+const isPatient = function (req, res, next){
+    if(!req.session.userId || req.session.role !== 'patient'){
+        const error = `You dont have permission in patient page`;
+        res.redirect(`/patient?error=${error}`); 
+    } else {
+        next();
+    }
+}
+// router.get('/doctor/:idUser/edit', Controller.renderEditDoctor);
+// router.post('/doctor/:idUser/edit', Controller.handlerEditDoctor);
+
+// router.get('/patient/:idUser/edit', Controller.renderEditPatient);
+// router.post('/patient/:idUser/edit', Controller.handlerEditPatient);
+
+router.get('/doctor', isLoggedIn, isDoctor, Controller.homeDoctor);
 // router.get('/doctor/showpatients', Controller.showPatients);
 // router.get('/doctor/:id/action', Controller.renderActionDoctor);
 // router.post('/doctor/:id/action', Controller.handlerActionDoctor);
 // router.get('/doctor/:id/receipt', Controller.renderReceiptDoctor);
 // router.post('/doctor/:id/receiptd', Controller.handlerReceiptDoctor);
 
-// router.get('/patient', Controller.homePatient);
+router.get('/patient', isLoggedIn, isPatient, Controller.homePatient);
 // router.get('/patient/showdoctors', Controller.showDoctors);
 // router.get('/patient/:id/consultation', Controller.renderConsultation);
 // router.post('/patient/:id/consultation', Controller.handlerConsultation);
