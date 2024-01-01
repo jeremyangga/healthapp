@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { calculateBMI } = require('../helper');
 module.exports = (sequelize, DataTypes) => {
   class Patient extends Model {
     /**
@@ -16,21 +17,113 @@ module.exports = (sequelize, DataTypes) => {
       Patient.hasMany(models.Consultation, {foreignKey: 'patientId'});
       Patient.hasMany(models.Receipt, {foreignKey: 'patientId'});
     }
+    static calculateAge(value){
+      let dateOfFound = new Date(value);
+      let month_diff = Date.now() - dateOfFound.getTime();
+      let age_dt = new Date(month_diff);
+      let year = age_dt.getUTCFullYear();
+      let age = year-1970;
+      return age;
+    }
+    get date(){
+      return this.DoB.toISOString().substring(0, 10);
+    }
   }
   Patient.init({
-    name: DataTypes.STRING,
-    image: DataTypes.STRING,
-    education: DataTypes.STRING,
-    weight: DataTypes.FLOAT,
-    height: DataTypes.FLOAT,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'Name required!'
+        },
+        notEmpty : {
+          msg : 'Name required!'
+        }
+      }
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'Image required!'
+        },
+        notEmpty : {
+          msg : 'Image required!'
+        }
+      }
+    },
+    education: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'Education required!'
+        },
+        notEmpty : {
+          msg : 'Education required!'
+        }
+      }
+    },
+    weight: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'Weight required!'
+        },
+        notEmpty : {
+          msg : 'Weight required!'
+        }
+      }
+    },
+    height: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'Height required!'
+        },
+        notEmpty : {
+          msg : 'Height required!'
+        }
+      }
+    },
     bmi: DataTypes.FLOAT,
-    DoB: DataTypes.DATE,
+    DoB: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'DoB required!'
+        },
+        notEmpty : {
+          msg : 'DoB required!'
+        }
+      }
+    },
     age: DataTypes.INTEGER,
-    gender: DataTypes.STRING,
-    userId: DataTypes.INTEGER
+    gender: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'Gender required!'
+        },
+        notEmpty : {
+          msg : 'Gender required!'
+        }
+      }
+    },
+    userId : DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Patient',
   });
+  Patient.beforeCreate( async(patient, options)=>{
+    patient.age = Patient.calculateAge(patient.DoB);
+    patient.bmi = calculateBMI(patient.weight, patient.height);
+  })
   return Patient;
 };

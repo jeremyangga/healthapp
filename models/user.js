@@ -19,9 +19,57 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role: DataTypes.STRING
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notNull : {
+          msg : 'Username required!'
+        },
+        notEmpty : {
+          msg : 'Username required!'
+        },
+        // isUnique(value) {
+        //   let data = User.findAll({
+        //     where: {
+        //           username: value
+        //         }
+        //   })
+        //   if(data.length !== 0){
+        //     throw new Error('Username already exists');
+        //   }
+        // }
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'Password required!'
+        },
+        notEmpty : {
+          msg : 'Password required!'
+        },
+        len : {
+          args : [8, 24],
+          msg: 'Minimum 8 password character!'
+        }
+      }
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull : {
+          msg : 'Role required!'
+        },
+        notEmpty : {
+          msg : 'Role required!'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',

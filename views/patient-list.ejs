@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('_head',{title: 'Patient List - Doctor'}) %>
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/doctor">Home</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link" href="/doctor">Home</a>
+                  <a class="nav-link active" href="/doctor/showpatients">Patients List</a>
+                  <a class="nav-link" href="/logout">Logout</a>
+                </div>
+              </div>
+            </div>
+        </nav>
+        <h1 style="text-align: center;">List Patients</h1>
+        <div class="container" style="margin-top: 50px;">
+            <form method="get" action="/doctor/showpatients">
+                <input type="text" name="search" placeholder="search patient name">
+                <input type="submit" value="search">
+            </form>
+            <br>
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Weight</th>
+                    <th scope="col">Height</th>
+                    <th scope="col">BMI</th>
+                    <th scope="col">BMI Category</th>
+                    <th scope="col">DoB</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Gender</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% patients.forEach((el,i) => { %>    
+                        <tr>
+                          <th scope="row"><%= i+1 %></th>
+                          <td><%= el.name %></td>
+                          <td><%= el.weight %></td>
+                          <td><%= el.height %></td>
+                          <td><%= el.bmi %></td>
+                          <td><%= categoryBMI(el.weight, el.height) %></td>
+                          <td><%= el.date %></td>
+                          <td><%= el.age %></td>
+                          <td><%= el.gender %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+              </table>
+              
+        </div>
+    </div>
+</body>
+</html>

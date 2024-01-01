@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('_head',{title: 'Action - Doctor'}) %>
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/doctor">Home</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link" href="/patient">Home</a>
+                  <a class="nav-link" href="/patient/showdoctors">Docters List</a>
+                  <a class="nav-link" href="/logout">Logout</a>
+                  <!-- <a class="nav-link" href="/doctor/showreceipt">Receipts List</a> -->
+                </div>
+              </div>
+            </div>
+        </nav>
+        <h1 style="text-align: center;">Consultation Patient</h1>
+        <h4>Konsultasi ke <%= doctor.name %>, klinik <%= doctor.Specialist.name %></h4>
+        <center>
+           <form method="post" action="/patient/<%= doctor.id %>/consultation">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Keluhan</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="complaint"></textarea>
+                </div>
+                <div>
+                    <label>Gambar pendukung</label>
+                    <input type="text" class="form-control" name="images">
+                </div>
+                <br>
+                <input type="submit" value="Kirim" class="btn btn-primary">
+           </form>
+        </center>
+       
+    </div>
+</body>
+</html>
