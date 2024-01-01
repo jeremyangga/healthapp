@@ -1,0 +1,33 @@
+[
+    {
+      "id": 1,
+      "username": "dr_maria",
+      "password": "secure123",
+      "role": "doctor"
+    },
+    {
+      "id": 2,
+      "username": "fitri",
+      "password": "mypassword",
+      "role": "patient"
+    },
+    {
+      "id": 3,
+      "username": "dr_ahmad",
+      "password": "hospital456",
+      "role": "doctor"
+    },
+    {
+      "id": 4,
+      "username": "aditya",
+      "password": "secret789",
+      "role": "patient"
+    },
+    {
+      "id": 5,
+      "username": "dr_siti",
+      "password": "healthcare321",
+      "role": "doctor"
+    }
+  ]
+  

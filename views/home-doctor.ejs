@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('_head',{title: 'Home - Doctor'}) %>
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/doctor">Home</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link active" href="/doctor">Home</a>
+                  <a class="nav-link" href="/doctor/showpatients">Patients List</a>
+                  <a class="nav-link" href="/logout">Logout</a>
+                </div>
+              </div>
+            </div>
+        </nav>
+        <h1 style="text-align: center;">Home Doctor</h1>
+        <center>
+            <div class="card" style="width: 18rem; text-align: center;">
+                <img class="card-img-top" src="<%= data.Doctor.image %>" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-title"><%= data.Doctor.name %></p>
+                    <p class="card-text">Hello, my name is <%= data.Doctor.name %>, i'm <%= data.Doctor.age %> years old. Right now i am in clinic <%= dataDoctor.Specialist.name %></p>
+                </div>
+            </div>
+        </center>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Complaint</th>
+                <th scope="col">Images</th>
+                <th scope="col">Penanganan</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+         <% dataConsultations.forEach((el,i) => { %>
+            <tr>
+              <th scope="row"><%= i+1 %></th>
+              <td><%= el.complaint %></td>
+              <td><img src="<%= el.images %>" width="300" height="200"></td>
+              <td><%= el.isDone ? 'Sudah Ditangani': 'Belum Ditangani' %></td>
+              <td>
+                <a href="/doctor?done=true+<%= el.patientId %>" class="btn btn-primary">Sudah ditangani</a>
+              </td>
+            </tr>
+         <% }) %>
+            </tbody>
+            </table>
+          
+    </div>
+</body>
+</html>
